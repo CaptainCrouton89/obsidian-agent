@@ -9,6 +9,14 @@ export interface ModifiedFile {
 }
 
 export class FileScanner {
+  // Folders to always skip during scanning
+  private readonly SKIP_FOLDERS = new Set([
+    '.obsidian',
+    '.trash',
+    'node_modules',
+    '.git'
+  ]);
+
   /**
    * Find all files modified since a given timestamp
    */
@@ -39,8 +47,8 @@ export class FileScanner {
     }
 
     for (const entry of entries) {
-      // Skip hidden files/folders and .obsidian folder
-      if (entry.name.startsWith('.')) {
+      // Skip hidden files/folders and special folders
+      if (entry.name.startsWith('.') || this.SKIP_FOLDERS.has(entry.name)) {
         continue;
       }
 
