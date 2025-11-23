@@ -7,10 +7,8 @@ export const config = {
 
   // Nightly cleanup schedule (4:30 AM every day)
   nightlySchedule: '30 4 * * *',
-
-  // Enable file watching (for future features)
+  
   enableWatching: true,
 
-  // Logging
   logLevel: 'info' as const,
 } as const;
