@@ -237,7 +237,7 @@ export async function runNightlyCleanup(): Promise<void> {
   logger.info(`Vault path: ${config.vaultPath}`);
 
   // Get files modified since last run
-  const lastRun = stateManager.getLastRun();
+  const lastRun = await stateManager.getLastRun();
   const allModifiedFiles = fileScanner.findModifiedFiles(config.vaultPath, lastRun);
 
   // Filter out excluded folders
@@ -282,7 +282,7 @@ export async function runNightlyCleanup(): Promise<void> {
   // Skip Claude processing if there's nothing to do
   if (archivedFiles.length === 0 && existingModifiedFiles.length === 0) {
     logger.info('No files to process - skipping Claude Code agent');
-    stateManager.updateLastRun();
+    await stateManager.updateLastRun();
     logger.info('Nightly cleanup completed successfully');
     return;
   }
@@ -343,7 +343,7 @@ export async function runNightlyCleanup(): Promise<void> {
   commitChanges(config.vaultPath, archivedFiles.length, existingModifiedFiles.length);
 
   // Update last run timestamp
-  stateManager.updateLastRun();
+  await stateManager.updateLastRun();
 
   logger.info('Nightly cleanup completed successfully');
 }

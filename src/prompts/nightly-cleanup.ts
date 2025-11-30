@@ -24,6 +24,19 @@ ${config.frontmatterGuidelines}
 
 ## Processing Rules
 
+### Inline Instructions in Archived Files
+Archived files may contain special instruction lines starting with \`!\`:
+- **Format**: Lines beginning with \`!\` followed by text (e.g., \`!merge this into Work/Projects/Authentication\`)
+- **Purpose**: These are processing instructions for you, specific to that archived file
+- **Handling**:
+  - Read and follow these instructions when synthesizing that file's content
+  - Do NOT include the \`!...\` lines themselves in any master notes
+  - Strip them out completely from the content you synthesize
+- **Examples**:
+  - \`!split into separate notes for each topic\`
+  - \`!add to Learning/Programming/TypeScript\`
+  - \`!this is a fleeting thought, integrate with existing note on productivity\`
+
 ### For Archived Files (new files already moved to /.archive/):
 1. Read the archived file content from \`/.archive/YYYY-MM-DD/filename.md\`
 2. Analyze content semantically to determine topic(s), domain(s), and note type(s)
