@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-import cron from 'node-cron';
 import { logger } from './logger.js';
 import { config } from './config.js';
 import { VaultWatcher } from './vault-watcher.js';
-import { runNightlyCleanup } from './jobs/nightly-cleanup.js';
+import { checkAndRunCleanupIfNeeded } from './jobs/startup-cleanup.js';
 
 class ObsidianAgent {
   private vaultWatcher: VaultWatcher;
@@ -20,14 +19,11 @@ class ObsidianAgent {
     // Start vault watcher
     this.vaultWatcher.start();
 
-    // Schedule nightly cleanup job (2:30 AM every day)
-    cron.schedule(config.nightlySchedule, () => {
-      runNightlyCleanup().catch((error) => {
-        logger.error('Nightly cleanup job failed:', error);
-      });
+    // Check if cleanup should run (based on time since last run)
+    checkAndRunCleanupIfNeeded().catch((error) => {
+      logger.error('Startup cleanup check failed:', error);
     });
 
-    logger.info(`📅 Nightly cleanup scheduled for: ${config.nightlySchedule}`);
     logger.info('✅ Obsidian Agent is running');
 
     // Handle graceful shutdown

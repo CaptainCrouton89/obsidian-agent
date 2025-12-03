@@ -187,8 +187,8 @@ function commitChanges(vaultPath: string, archivedCount: number, modifiedCount: 
       logger.info('No remote configured or push failed - commit is local only');
     }
   } catch (error) {
-    logger.error('Error committing changes to git:', error);
-    throw error;
+    logger.error('Error committing changes to git (non-fatal):', error);
+    // Don't throw - git failures shouldn't prevent state updates
   }
 }
 
